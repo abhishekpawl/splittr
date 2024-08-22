@@ -20,6 +20,7 @@ const expensesInput = z.object({
   }))
 })
 
+/* to create a new expense */
 expensesRouter.post("/", async (c) => {
   const body = await c.req.json()
   const { success } = expensesInput.safeParse(body)
@@ -49,6 +50,35 @@ expensesRouter.post("/", async (c) => {
       }
     })
     return c.json(expense)
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
+
+/* to get all expenses of a user */
+expensesRouter.get("/user/:id", async (c) => {
+  try {
+    const userId = c.req.param("id")
+    const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
+    const expenses = await prisma.expense.findMany({
+      where: {
+        participants: {
+          some: {
+            userId
+          }
+        }
+      },
+      include: {
+        payer: true,
+        participants: {
+          include: {
+            user: true
+          }
+        }
+      }
+    })
+    return c.json(expenses)
   } catch (error) {
     c.status(411)
     return c.json({ error: "Something went wrong" })
