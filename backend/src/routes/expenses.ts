@@ -105,3 +105,32 @@ expensesRouter.get("/", async (c) => {
     return c.json({ error: "Something went wrong" })
   }
 })
+
+/* get a specific expense */
+expensesRouter.get("/:id", async (c) => {
+  try {
+    const expenseId = c.req.param("id")
+    const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
+    const expense = await prisma.expense.findFirst({
+      where: {
+        id: expenseId
+      },
+      include: {
+        payer: true,
+        participants: {
+          include: {
+            user: true
+          }
+        }
+      }
+    })
+    if(!expense) {
+      c.status(404)
+      return c.json({ error: "Expense not found" })
+    }
+    return c.json(expense)
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
