@@ -40,4 +40,5 @@ model ExpenseParticipant {
   expenseId         String
   expense           Expense @relation(fields: [expenseId], references: [id])
   amountOwed        Float
+  settled           Boolean @default(false)
 }
