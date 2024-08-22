@@ -134,3 +134,37 @@ expensesRouter.get("/:id", async (c) => {
     return c.json({ error: "Something went wrong" })
   }
 })
+
+/* balance of a user */
+expensesRouter.get("/balance/user/:id", async (c) => {
+  try {
+    const userId = c.req.param("id")
+    const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
+    const userExpenses = await prisma.expenseParticipant.findMany({
+      where: {
+        userId
+      },
+      include: {
+        expense: {
+          include: {
+            payer: true
+          }
+        }
+      }
+    })
+    let totalPaid = 0
+    let totalOwed = 0
+    userExpenses.forEach((participant) => {
+      if(participant.expense.payerId === userId) {
+        totalPaid += participant.expense.totalAmount
+      } else {
+        totalOwed += participant.amountOwed
+      }
+    })
+    const balance = totalPaid - totalOwed
+    return c.json({ balance: balance })
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
