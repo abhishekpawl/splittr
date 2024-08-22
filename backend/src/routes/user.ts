@@ -86,3 +86,14 @@ userRouter.post("/signin", async (c) => {
     return c.json({ error: "Something went wrong" })
   }
 })
+
+userRouter.get("/bulk", async (c) => {
+  try {
+    const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
+    const users = await prisma.user.findMany()
+    return c.json(users)
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
