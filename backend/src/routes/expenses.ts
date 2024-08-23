@@ -49,6 +49,15 @@ expensesRouter.post("/", async (c) => {
         }
       }
     })
+    const settlePayer = await prisma.expenseParticipant.updateMany({
+      where: {
+        expenseId: expense.id,
+        userId: payerId
+      },
+      data: {
+        settled: true
+      }
+    })
     return c.json(expense)
   } catch (error) {
     c.status(411)
@@ -129,6 +138,35 @@ expensesRouter.get("/:id", async (c) => {
       return c.json({ error: "Expense not found" })
     }
     return c.json(expense)
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
+
+/* to settle expense for a specific participant */
+expensesRouter.put("/:expenseId/settle/:userId", async (c) => {
+  try {
+    const expenseId = c.req.param("expenseId")
+    const userId = c.req.param("userId")
+    const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
+    const participant = await prisma.expenseParticipant.updateMany({
+      where: {
+        expenseId,
+        userId
+      },
+      data: {
+        settled: true
+      }
+    })
+    if(participant.count === 0) {
+      c.status(404)
+      return c.json({ error: "Expense or User not found" })
+    }
+    return c.json({
+      message: "Participant has settled their share",
+      participant
+    })
   } catch (error) {
     c.status(411)
     return c.json({ error: "Something went wrong" })
