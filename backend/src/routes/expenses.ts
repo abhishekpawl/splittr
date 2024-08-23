@@ -195,3 +195,51 @@ expensesRouter.put("/:expenseId/settle", async (c) => {
     return c.json({ error: "Something went wrong" })
   }
 })
+
+/* to get settled status of a participant in an expense */
+expensesRouter.get("/:expenseId/settled/:userId", async (c) => {
+  try {
+    const expenseId = c.req.param("expenseId")
+    const userId = c.req.param("userId")
+    const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
+    const participant = await prisma.expenseParticipant.findFirst({
+      where: {
+        expenseId,
+        userId
+      },
+      select: {
+        userId: true,
+        settled: true
+      }
+    })
+    if(!participant) {
+      c.status(404)
+      return c.json({ error: "Participant not found for this expense" })
+    }
+    return c.json(participant)
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
+
+/* to get settled status of an expense */
+expensesRouter.get("/:expenseId/settled", async (c) => {
+  try {
+    const expenseId = c.req.param("expenseId")
+    const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
+    const participants = await prisma.expenseParticipant.findMany({
+      where: {
+        expenseId
+      },
+      select: {
+        userId: true,
+        settled: true
+      }
+    })
+    return c.json(participants)
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
