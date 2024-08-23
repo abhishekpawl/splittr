@@ -134,3 +134,26 @@ expensesRouter.get("/:id", async (c) => {
     return c.json({ error: "Something went wrong" })
   }
 })
+
+/* to settle an expense */
+expensesRouter.put("/:expenseId/settle", async (c) => {
+  try {
+    const expenseId = c.req.param("expenseId")
+    const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
+    const updateParticipants = await prisma.expenseParticipant.updateMany({
+      where: {
+        expenseId
+      },
+      data: {
+        settled: true
+      }
+    })
+    return c.json({
+      message: "Expense settled for all participants",
+      updateParticipants
+    })
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
