@@ -3,6 +3,7 @@ import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { z } from "zod"
 import { verify } from "hono/jwt"
+import { minTransactions } from "../helper/minTransactions"
 
 export const expensesRouter = new Hono<{
   Bindings: {
@@ -328,6 +329,17 @@ expensesRouter.get("/:expenseId/settled", async (c) => {
       }
     })
     return c.json(participants)
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
+
+/* to get minimum transactions */
+expensesRouter.get("/settle/minTransactions", async (c) => {
+  try {
+    const transactions = await minTransactions({ DATABASE_URL: c.env.DATABASE_URL })
+    return c.json(transactions)
   } catch (error) {
     c.status(411)
     return c.json({ error: "Something went wrong" })
