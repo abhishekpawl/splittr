@@ -71,3 +71,43 @@ export const useExpense = (expenseId: string) => {
     expense
   }
 }
+export interface Balance {
+  balance: number,
+  amountLent: number,
+  amountOwed: number
+}
+
+export const useUserBalanceAndTransactions = () => {
+  const token = localStorage.getItem("token")
+  const [loading, setLoading] = useState(true)
+  const [balance, setBalance] = useState<Balance>()
+  const [expenses, setExpenses] = useState<Expense[]>([])
+
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/api/v1/expenses/balance`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then((response) => {
+        console.log(response.data)
+        setBalance(response.data)
+      })
+      .then(() => {
+        axios.get(`${BACKEND_URL}/api/v1/expenses/user/allExpenses`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        })
+          .then((response) => {
+            setExpenses(response.data)
+            setLoading(false)
+          })
+      })
+  }, [])
+  return {
+    loading,
+    balance,
+    expenses
+  }
+}

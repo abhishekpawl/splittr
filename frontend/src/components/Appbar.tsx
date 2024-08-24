@@ -12,7 +12,7 @@ export const Appbar = () => {
       Splittr
     </Link>
     {token ? <div className="flex items-center gap-4">
-      <Link to="#" className="hidden text-sm font-medium text-muted-foreground sm:block">
+      <Link to="/" className="hidden text-sm font-medium text-muted-foreground sm:block">
         Dashboard
       </Link>
       <Link to="/expenses" className="hidden text-sm font-medium text-muted-foreground sm:block">

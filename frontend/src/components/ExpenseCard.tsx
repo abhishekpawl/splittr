@@ -13,7 +13,7 @@ export const ExpenseCard = ({ expenseId,description, totalAmount, payerName, cre
     <div className="mx-2 bg-white shadow-lg rounded-lg overflow-hidden my-6">
       <div className="px-6 py-2">
         <h3 className="text-xl font-bold mb-2 [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]">{description}</h3>
-        <p className="text-gray-700">Total Amount: ${totalAmount}</p>
+        <p className="text-gray-700">Total Amount: ₹ {totalAmount}</p>
         <div className="mt-4 flex flex-row justify-start">
           <h4 className="text-md font-semibold">Payer:&nbsp;</h4>
           <p className="text-gray-800">{payerName}</p>
@@ -27,7 +27,7 @@ export const ExpenseCard = ({ expenseId,description, totalAmount, payerName, cre
           <ul className="list-disc pl-5">
             {participants.map((participant) => (
               <li key={participant.id} className="text-gray-800 mt-2">
-                <p>{participant.user.name} - Owes: ₹{participant.amountOwed}</p>
+                <p>{participant.user.name} - Owes: ₹ {participant.amountOwed}</p>
                 <p className="text-sm text-gray-600">
                   Status: {participant.settled ? 'Settled' : 'Not Settled'}
                 </p>
