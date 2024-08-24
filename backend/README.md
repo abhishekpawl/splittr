@@ -135,3 +135,18 @@ api prefix - `/api/v1/expenses`
 
 - api - `/:expenseId/settled`
 - `GET` route
+
+### get balance for a user
+
+- api - `/balance`
+- `GET` route
+
+### get current user
+
+- api - `/currentUser`
+- `GET` route
+
+### get minimum transactions
+
+- api - `/settle/minTransactions`
+- `GET` route
