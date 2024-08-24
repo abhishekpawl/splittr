@@ -1,6 +1,8 @@
+import { Link } from "react-router-dom";
 import { Participant } from "../hooks";
 
-export const ExpenseCard = ({ description, totalAmount, payerName, createdAt, participants }: {
+export const ExpenseCard = ({ expenseId,description, totalAmount, payerName, createdAt, participants }: {
+  expenseId: string,
   description: string,
   totalAmount: number,
   payerName: string,
@@ -34,7 +36,9 @@ export const ExpenseCard = ({ description, totalAmount, payerName, createdAt, pa
           </ul>
         </div>
         <div className="flex felx-row justify-end">
-        <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">View Expense</button>
+          <Link to={`/expenses/${expenseId}`}>
+            <button type="button" className="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">View Expense</button>
+          </Link>
         </div>
       </div>
     </div>

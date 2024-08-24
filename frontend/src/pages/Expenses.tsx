@@ -51,6 +51,7 @@ export const Expenses = () => {
     <div className="flex-grow grid grid-cols-3">
       {sortedExpenses.map((expense: any) => <ExpenseCard
         key={expense.id}
+        expenseId={expense.id}
         description={expense.description}
         totalAmount={expense.totalAmount}
         payerName={expense.payer.name}

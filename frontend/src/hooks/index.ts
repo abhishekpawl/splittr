@@ -51,3 +51,23 @@ export const useExpenses = () => {
     sortedExpenses
   }
 }
+
+export const useExpense = (expenseId: string) => {
+  const [loading, setLoading] = useState(true)
+  const [expense, setExpense] = useState<Expense>()
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/api/v1/expenses/${expenseId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then((response) => {
+        setExpense(response.data)
+        setLoading(false)
+      })
+  }, [])
+  return {
+    loading,
+    expense
+  }
+}
