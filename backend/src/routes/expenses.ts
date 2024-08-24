@@ -85,9 +85,9 @@ expensesRouter.post("/", async (c) => {
 })
 
 /* to get all expenses of a user */
-expensesRouter.get("/user/:id", async (c) => {
+expensesRouter.get("/user/allExpenses", async (c) => {
   try {
-    const userId = c.req.param("id")
+    const userId = c.get("userId")
     const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
     const expenses = await prisma.expense.findMany({
       where: {
