@@ -15,7 +15,7 @@ export const Appbar = () => {
       <Link to="#" className="hidden text-sm font-medium text-muted-foreground sm:block">
         Dashboard
       </Link>
-      <Link to="#" className="hidden text-sm font-medium text-muted-foreground sm:block">
+      <Link to="/expenses" className="hidden text-sm font-medium text-muted-foreground sm:block">
         Expenses
       </Link>
       <div className="flex flex-col justify-center">
