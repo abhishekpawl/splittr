@@ -188,6 +188,23 @@ expensesRouter.get("/balance", async (c) => {
   }
 })
 
+/* to get current user */
+expensesRouter.get("/currentUser", async (c) => {
+  try {
+    const id = c.get("userId")
+    const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
+    const user = await prisma.user.findFirst({
+      where: {
+        id
+      }
+    })
+    return c.json(user)
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
+
 /* get a specific expense */
 expensesRouter.get("/:id", async (c) => {
   try {
