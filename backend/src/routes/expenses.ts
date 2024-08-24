@@ -134,6 +134,60 @@ expensesRouter.get("/", async (c) => {
   }
 })
 
+/* to get balance of a user */
+expensesRouter.get("/balance", async (c) => {
+  try {
+    const userId = c.get("userId")
+    const prisma = new PrismaClient({ datasourceUrl: c.env.DATABASE_URL }).$extends(withAccelerate())
+    // checking for all the expenses, the user paid for
+    const lentExpenses = await prisma.expense.findMany({
+      where: {
+        payerId: userId,
+        participants: {
+          some: {
+            settled: false
+          }
+        }
+      },
+      include: {
+        participants: true
+      }
+    })
+    let amountLent = 0
+    lentExpenses.forEach((expense) => {
+      expense.participants.forEach((participant) => {
+        if(!participant.settled) {
+          amountLent += participant.amountOwed
+        }
+      })
+    })
+    // to check the amount the user owes
+    const owedExpenses = await prisma.expenseParticipant.findMany({
+      where: {
+        userId,
+        settled: false
+      },
+      include: {
+        expense: true
+      }
+    })
+    let amountOwed = 0
+    owedExpenses.forEach((expense) => {
+      amountOwed += expense.amountOwed
+    })
+    // balance
+    let balance = amountLent - amountOwed
+    return c.json({
+      balance,
+      amountLent,
+      amountOwed
+    })
+  } catch (error) {
+    c.status(411)
+    return c.json({ error: "Something went wrong" })
+  }
+})
+
 /* get a specific expense */
 expensesRouter.get("/:id", async (c) => {
   try {
