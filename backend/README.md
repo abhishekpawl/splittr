@@ -1,3 +1,7 @@
+# Splittr - backend
+
+## Steps to set up the project
+
 ```
 npm install
 npm run dev
@@ -6,6 +10,31 @@ npm run dev
 ```
 npm run deploy
 ```
+
+Create a `wrangler.toml` file in the backend directory with the following content
+
+```toml
+name = "backend"
+compatibility_date = "2024-08-21"
+
+[vars]
+DATABASE_URL="<Prisma Accelerate API key>"
+JWT_SECRET="<your secret>"
+```
+
+Create a .env file
+
+```.env
+DATABASE_URL="<database url>"
+```
+
+Data models
+
+![data model](../assets/splittr.png)
+
+- **User** model - to represent every user of the app
+- **Expense** model - to represent every expense
+- **ExpenseParticipant** - to represent each participant in an expense
 
 # Routes
 
