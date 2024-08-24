@@ -2,11 +2,15 @@ import { Hono } from "hono"
 import { PrismaClient } from '@prisma/client/edge'
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { z } from "zod"
+import { verify } from "hono/jwt"
 
 export const expensesRouter = new Hono<{
   Bindings: {
     DATABASE_URL: string;
     JWT_SECRET: string;
+  },
+  Variables: {
+    userId: string;
   }
 }>()
 
@@ -18,6 +22,21 @@ const expensesInput = z.object({
     userId: z.string(),
     amountOwed: z.number()
   }))
+})
+
+/* auth middleware */
+expensesRouter.use("/*", async (c, next) => {
+  const header = c.req.header("Authorization") || ""
+  const token = header.split(" ")[1]
+  const user = await verify(token, c.env.JWT_SECRET)
+  if(user) {
+    // @ts-ignore
+    c.set("userId", user.id)
+    await next()
+  } else {
+    c.status(411)
+    return c.json({ error: "Authentication required" })
+  }
 })
 
 /* to create a new expense */
