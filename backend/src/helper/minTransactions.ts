@@ -39,9 +39,19 @@ export const minTransactions = async ({ DATABASE_URL }: { DATABASE_URL: string }
     // person who is owed the most
     const creditor = debts[debts.length - 1]
     const amount = Math.min(-debtor.balance, creditor.balance);
+    const debtorUser = await prisma.user.findUnique({
+      where: {
+        id: debtor.userId
+      }
+    })
+    const creditorUser = await prisma.user.findUnique({
+      where: {
+        id: creditor.userId
+      }
+    })
     transactions.push({
-      from: debtor.userId,
-      to: creditor.userId,
+      from: debtorUser?.name,
+      to: creditorUser?.name,
       amount
     })
     debtor.balance += amount
