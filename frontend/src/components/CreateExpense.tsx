@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"
 
 export const CreateExpense = () => {
   const [description, setDescription] = useState("")
-  const [amount, setAmount] = useState(1)
+  const [amount, setAmount] = useState(0)
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(true)
   const [inputs, setInputs] = useState([])
@@ -34,9 +34,16 @@ export const CreateExpense = () => {
   }, [])
 
   if(loading) {
-    return <div>
-      loading...
-    </div>
+    return <div role="status" className="m-12 p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">
+      <div className="flex items-center justify-between">
+          <div>
+              <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+              <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+          </div>
+          <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+      </div>
+      <span className="sr-only">Loading...</span>
+  </div>
   }
 
   /* @ts-ignore */
@@ -92,7 +99,7 @@ export const CreateExpense = () => {
       </div>
       <div className="flex flex-col mt-4">
         <label className="block mb-2 text-sm font-medium text-gray-900">Amount</label>
-        <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="1000" min={1} required />
+        <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="1000" min={0} required />
       </div>
       <div className="flex flex-col justify-start">
         {
