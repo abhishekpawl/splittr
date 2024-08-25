@@ -133,3 +133,31 @@ export const useUser = () => {
     user
   }
 }
+
+export interface Transaction {
+  from: string,
+  to: string,
+  amount: number
+}
+
+export const useTransactions = () => {
+  const [loading, setLoading] = useState(true)
+  const [transactions, setTransactions] = useState<Transaction[]>([])
+
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/api/v1/expenses/settle/minTransactions`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then((response) => {
+        setTransactions(response.data)
+        setLoading(false)
+      })
+  })
+
+  return {
+    loading,
+    transactions
+  }
+}

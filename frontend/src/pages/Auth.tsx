@@ -32,7 +32,7 @@ export const Auth = ({ type }: {
 
   return <div className="flex flex-col h-screen">
     <Appbar />
-    <div className="flex-grow bg-gray-100 items-center flex justify-center flex-col">
+    <div className="flex-grow bg-slate-200 items-center flex justify-center flex-col">
       <div className="flex justify-center bg-white p-5 rounded-lg shadow-lg">
         <div>
           <div className="text-2xl font-bold text-left mt-4 px-4">

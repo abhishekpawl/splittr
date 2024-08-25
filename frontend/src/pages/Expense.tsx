@@ -39,7 +39,7 @@ export const Expense = () => {
 
   return <div className="flex flex-col h-screen">
     <Appbar />
-    <div className="flex-grow grid grid-cols-3 bg-slate-100">
+    <div className="flex-grow grid grid-cols-3 bg-slate-200">
       <div className="my-10 min-w-96 col-start-2 flex justify-start bg-white p-5 rounded-lg shadow-lg">
         <div className="flex flex-col justify-start w-full">
           <div className="text-2xl font-bold flex flex-row justify-start [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)] mb-4">
@@ -47,7 +47,7 @@ export const Expense = () => {
           </div>
           <div className="flex flex-row justify-start mb-4">
             <p className="text-lg font-bold">Total amount:&nbsp;</p>
-            <p className="text-xl">{ expense?.totalAmount }</p>
+            <p className="text-xl">₹ { expense?.totalAmount }</p>
           </div>
           <div className="flex flex-row justify-start mb-4">
             <p className="text-lg font-bold">Paid by:&nbsp;</p>

@@ -5,7 +5,7 @@ import { CreateExpense } from "../components/CreateExpense"
 export const Dashboard = () => {
   return <div className="flex flex-col h-screen">
     <Appbar />
-    <div className="flex-grow grid grid-cols-2 bg-slate-100">
+    <div className="flex-grow grid grid-cols-2 bg-slate-200">
       <Balance />
       <CreateExpense />
     </div>

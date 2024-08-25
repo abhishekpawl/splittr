@@ -48,7 +48,7 @@ export const Expenses = () => {
 
   return <div className="flex flex-col h-screen">
     <Appbar />
-    <div className="flex-grow grid grid-cols-3">
+    <div className="flex-grow grid grid-cols-3 bg-slate-200">
       {sortedExpenses.map((expense: any) => <ExpenseCard
         key={expense.id}
         expenseId={expense.id}
