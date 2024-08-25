@@ -45,7 +45,7 @@ export const Balance = () => {
       </div>
       <div className="flex flex-col justify-start">
         {
-          expenses.map(expense => {
+          expenses.slice(0, 6).map(expense => {
             return <div key={expense.id} className="flex flex-row justify-between mt-4">
               <div className="text-slate-700">
                 {expense.description}
