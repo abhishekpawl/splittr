@@ -2,9 +2,19 @@ import { Appbar } from "../components/Appbar"
 import { ClipboardPen, ChevronsRight } from "lucide-react"
 import { useTransactions } from "../hooks"
 import { Avatar } from "../components/Avatar"
+import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 export const MinTransactions = () => {
   const { loading, transactions } = useTransactions()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(!localStorage.getItem("token")) {
+      navigate("/signup")
+    }
+  })
 
   if(loading) {
     return <div role="status" className="m-12 p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">

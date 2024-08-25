@@ -1,9 +1,19 @@
+import { useNavigate } from "react-router-dom"
 import { Appbar } from "../components/Appbar"
 import { ExpenseCard } from "../components/ExpenseCard"
 import { useExpenses } from "../hooks"
+import { useEffect } from "react"
 
 export const Expenses = () => {
   const { loading, sortedExpenses } = useExpenses()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(!localStorage.getItem("token")) {
+      navigate("/signup")
+    }
+  })
 
   if(loading) {
     return <div role="status" className="p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">

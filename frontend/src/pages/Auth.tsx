@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom"
 // @ts-ignore
 import { SignupInput } from "@abhishekpawl/medium-common";
@@ -10,6 +10,12 @@ export const Auth = ({ type }: {
   type: "signup" | "signin"
 }) => {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if(localStorage.getItem("token")) {
+      navigate("/")
+    }
+  }, [])
 
   const [postInputs, setPostInputs] = useState<SignupInput>({
     name: "",

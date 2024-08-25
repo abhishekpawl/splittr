@@ -5,12 +5,19 @@ import { ScrollText } from "lucide-react"
 import { Avatar } from "../components/Avatar"
 import axios from "axios"
 import { BACKEND_URL } from "../config"
+import { useEffect } from "react"
 
 export const Expense = () => {
   const { expenseId } = useParams()
   const { loading, expense } = useExpense(expenseId || "")
   const navigate = useNavigate()
   console.log(expense)
+
+  useEffect(() => {
+    if(!localStorage.getItem("token")) {
+      navigate("/signup")
+    }
+  })
 
   if(loading) {
     return <div role="status" className="m-12 p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">
