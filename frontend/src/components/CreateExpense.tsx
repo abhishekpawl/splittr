@@ -101,7 +101,10 @@ export const CreateExpense = () => {
         <label className="block mb-2 text-sm font-medium text-gray-900">Amount</label>
         <input type="number" value={amount} onChange={(e) => setAmount(Number(e.target.value))} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="1000" min={0} required />
       </div>
-      <div className="flex flex-col justify-start">
+      <div className="text-lg mt-4">
+        Participants & Shares
+      </div>
+      <div className="flex flex-col justify-start overflow-y-auto h-44 mt-2">
         {
           users.map((user, index) => (
             <div key={index} className="flex flex-row mt-4">
@@ -122,8 +125,8 @@ export const CreateExpense = () => {
             </div>
           ))
         }
-        <button type="button" onClick={handleSubmit} className="mt-4 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Create Expense</button>
       </div>
+      <button type="button" onClick={handleSubmit} className="mt-6 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Create Expense</button>
     </div>
   </div>
 }
