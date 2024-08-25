@@ -111,3 +111,25 @@ export const useUserBalanceAndTransactions = () => {
     expenses
   }
 }
+
+export const useUser = () => {
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState({})
+
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/api/v1/expenses/currentUser`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+      .then((response) => {
+        setUser(response.data)
+        setLoading(false)
+      })
+  })
+
+  return {
+    loading,
+    user
+  }
+}

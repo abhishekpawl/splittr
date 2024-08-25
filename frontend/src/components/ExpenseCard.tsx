@@ -10,7 +10,7 @@ export const ExpenseCard = ({ expenseId,description, totalAmount, payerName, cre
   participants: Participant[]
 }) => {
   return (
-    <div className="mx-2 bg-white shadow-lg rounded-lg overflow-hidden my-6">
+    <div className="flex-grow mx-2 bg-white shadow-lg rounded-lg overflow-hidden my-6">
       <div className="px-6 py-2">
         <h3 className="text-xl font-bold mb-2 [text-shadow:_0_1px_0_rgb(0_0_0_/_40%)]">{description}</h3>
         <p className="text-gray-700">Total Amount: ₹ {totalAmount}</p>

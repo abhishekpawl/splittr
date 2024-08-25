@@ -1,9 +1,24 @@
 import { WalletIcon } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Avatar } from "./Avatar"
+import { useUser } from "../hooks"
 
 export const Appbar = () => {
   const token = localStorage.getItem("token")
+  const { loading, user } = useUser()
+
+  if(loading) {
+    return <div role="status" className="p-4 space-y-4 border border-gray-200 divide-y divide-gray-200 rounded shadow animate-pulse dark:divide-gray-700 md:p-6 dark:border-gray-700">
+        <div className="flex items-center justify-between">
+            <div>
+                <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-600 w-24 mb-2.5"></div>
+                <div className="w-32 h-2 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+            </div>
+            <div className="h-2.5 bg-gray-300 rounded-full dark:bg-gray-700 w-12"></div>
+        </div>
+        <span className="sr-only">Loading...</span>
+    </div>
+  }
 
   return <header className="bg-card px-4 py-3 shadow-sm sm:px-6 md:px-8">
   <div className="container mx-auto flex items-center justify-between">
@@ -19,7 +34,8 @@ export const Appbar = () => {
         Expenses
       </Link>
       <div className="flex flex-col justify-center">
-        <Avatar name={"Anonymous"} />
+        {/* @ts-ignore */}
+        <Avatar name={user.name} />
       </div>
     </div> : <div className="flex items-center gap-4">
       <Link to="/signin" className="text-sm font-medium text-muted-foreground hover:text-primary">
